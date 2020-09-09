@@ -1,0 +1,26 @@
+﻿@model List<Groups>
+
+@using LocalMealManagement.Models
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Group name</h4>
+    </div>
+    <div class="col-md-4">
+        <h4>Action</h4>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row shadow board" style="border-radius:10px;">
+        <div class="col-md-4 custom-font">
+            @item.GroupName
+        </div>
+        <div class="col-md-7">
+            <a asp-controller="GroupAdministration" asp-action="SpecificGroupTask" asp-route-groupId="@item.GroupId" class="btn btn-primary">Manage group</a>
+            <a asp-controller="ManageGroup" asp-action="AddMemberInGroup" asp-route-groupId="@item.GroupId" class="btn btn-primary">Add member</a>
+            <a asp-controller="ManageGroup" asp-action="MembersInGroup" asp-route-groupId="@item.GroupId" class="btn btn-primary">Members</a>
+        </div>
+    </div>
+}

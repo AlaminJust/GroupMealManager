@@ -1,0 +1,54 @@
+﻿@model IEnumerable<LocalMealManagement.ViewModel.SubGroupViewModel>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+<div class="creat-subgroup">
+    <a asp-action="CreateSubGroup" asp-route-groupId="@ViewBag.groupId">  <i class="fa fa-plus mr-2" aria-hidden="true" title="Create SubGroup"></i>Create SubGroup</a>
+</div>
+
+<div class="row creat-subgroup-header">
+    <div class="col-md-2">
+        Subgroup name
+    </div>
+    <div class="col-md-2">
+        Create date
+    </div>
+    <div class="col-md-2">
+        Start time
+    </div>
+    <div class="col-md-2">
+        End time
+    </div>
+    <div class="col-md-4">
+        Action
+    </div>
+</div>
+<hr />
+@foreach (var item in Model)
+{
+
+    <div class="row shadow sub-group-list">
+        <div class="col-md-2">
+            @item.SubGroupName
+        </div>
+        <div class="col-md-2">
+            @item.SubGroupCreateDate.ToShortDateString()
+        </div>
+        <div class="col-md-2">
+            @item.EndDate.ToShortTimeString()
+        </div>
+        <div class="col-md-2">
+            @item.startDate.ToShortTimeString()
+        </div>
+        <div class="col-md-4">
+            <a asp-controller="GroupAdministration" asp-action="MealsFormate" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" class="card-link" title="Meal Functionality"><i class='fas fa-users'></i></a>
+            <a asp-controller="ManageGroup" asp-action="MembersInGroup" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" class="card-link" title="Add Balance to members"><i class="fa fa-money" aria-hidden="true"></i></a>
+            <a asp-controller="GroupAdministration" asp-action="AddCost" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" class="card-link" title="Add All Cost Of management"><i class="fa fa-usd" aria-hidden="true"></i></a>
+            <a asp-controller="ManageGroup" asp-action="CostList" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" class="card-link" title="Cost List"><i class="fas fa-list"></i></a>
+            <a asp-controller="GroupAdministration" asp-action="AllUsersMonthlyMeals" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" asp-route-date="@item.SubGroupCreateDate" class="card-link"><i class="fas fa-hamburger" title="Monthly Meal List"></i></a>
+            <a asp-controller="ManageGroup" asp-action="AllCalculation" asp-route-groupId="@ViewBag.groupId" asp-route-subGroupId="@item.SubGroupId" class="card-link"><i class="fas fa-hamburger" title="All Calulation :D"></i></a>
+        </div>
+    </div>
+    <hr />
+
+
+}

@@ -1,0 +1,33 @@
+﻿@model CommonGroups
+
+@using LocalMealManagement.Models
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+<div class="shadow custom-board">
+    <div id="create-group">
+        <h4 class="board">Create group</h4>
+    </div>
+    <div id="create-group-form" class="board">
+        @await Html.PartialAsync("_createGroup.cshtml", Model.groupViewModel)
+    </div>
+</div>
+
+<div class="shadow custom-board">
+    <div id="your-group">
+        <h4 class="board">Your groups</h4>
+    </div>
+    <div id="groups-list" class="board">
+        @await Html.PartialAsync("_allGroups.cshtml", Model.Groups)
+    </div>
+</div>
+
+<script>
+    $('#create-group').on('click', function () {
+        $('#create-group-form').toggle(1000);
+    });
+    $('#your-group').on('click', function () {
+        $('#groups-list').toggle(600);
+    });
+</script>
