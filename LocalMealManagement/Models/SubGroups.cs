@@ -15,5 +15,6 @@ namespace LocalMealManagement.Models
         public DateTime? EndDate { get; set; }
         public virtual Groups Groups { get; set; }
         public virtual IdentityUser IdentityUser { get; set; }
+        public bool IsDateApplicable { get; set; } 
     }
 }

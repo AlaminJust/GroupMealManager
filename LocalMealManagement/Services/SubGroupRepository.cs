@@ -21,6 +21,20 @@ namespace LocalMealManagement.Services
             this.signInManager = signInManager;
         }
 
+        #region Utilities Method
+
+        private bool checkTimeAndDate(SubGroups subGroup,DateTime time, DateTime checkDate)
+        {
+            if (time.Month != subGroup.CreateDate.Month) return false;
+            if (checkDate.Day < time.Day) return false;
+            if (checkDate.Day > time.Day) return true;
+            if (time.TimeOfDay > subGroup.EndDate?.TimeOfDay && subGroup.IsDateApplicable == true)
+                return false;
+            return true;
+        }
+
+        #endregion
+
         public async Task<bool> AddMeal(MealModelView model, string subGroupId, string userName, DateTime date)
         {
             var user = await userManager.FindByNameAsync(userName);
@@ -29,6 +43,9 @@ namespace LocalMealManagement.Services
             {
                 return false;
             }
+            if (!checkTimeAndDate(subGroup, DateTime.Now, date))
+                return false;
+
             MealDetails mealDetails = new MealDetails
             {
                 IdentityUser = user,
@@ -45,6 +62,8 @@ namespace LocalMealManagement.Services
         public async Task<bool> UpdateMeal(MealModelView model, string subGroupId, string userName, DateTime date)
         {
             var mealDetailsUpdate = context.mealDetails.Where(x => x.SubGroups.Id.ToString() == subGroupId && x.IdentityUser.UserName == userName && x.OrderDate == date).FirstOrDefault();
+            if (!checkTimeAndDate(mealDetailsUpdate?.SubGroups, DateTime.Now, date))
+                return false;
             mealDetailsUpdate.Lunch = model.Lunch;
             mealDetailsUpdate.Morning = model.Morning;
             mealDetailsUpdate.Dinnar = model.Dinnar;
@@ -78,7 +97,8 @@ namespace LocalMealManagement.Services
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 Groups = groups,
-                IdentityUser = user
+                IdentityUser = user,
+                IsDateApplicable = model.IsDateApplicable
             };
             context.subGroups.Add(subGroups);
             return await Save();

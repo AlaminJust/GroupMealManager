@@ -24,6 +24,8 @@ namespace LocalMealManagement.ViewModel
         [DisplayFormat(DataFormatString = "HH: MM")]
         [Display(Name = "Ending Time")]
         [DataType(DataType.Time)]
-        public DateTime? EndDate { get; set; }
+        public DateTime? EndDate { get; set; } 
+        [Display(Name = "Active time")]
+        public bool IsDateApplicable { get; set; }
     }
 }
