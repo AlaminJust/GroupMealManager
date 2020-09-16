@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace LocalMealManagement.Secuirity
 {
-    public class IsGroupAdmin : AuthorizationHandler<ManageAdminRollAndClaimsRequirement>
+    public class IsGroupSuparAdmin : AuthorizationHandler<ManageAdminRollAndClaimsRequirement>
     {
         private readonly AppDbContext appDbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public IsGroupAdmin(IHttpContextAccessor httpContextAccessor , AppDbContext appDbContext)
+        public IsGroupSuparAdmin(IHttpContextAccessor httpContextAccessor , AppDbContext appDbContext)
         {
 
             this._httpContextAccessor = httpContextAccessor;
@@ -32,7 +32,7 @@ namespace LocalMealManagement.Secuirity
             string ID = authFilterContext.Query["groupId"].ToString();
             var currentUser = _httpContextAccessor.HttpContext.User.Identity.Name;
             
-            var res = appDbContext.usersGroups.Where(x => x.Groups.GroupId.ToString() == ID && x.IdentityUser.UserName == currentUser && x.IdentityRole.Name == "SuperAdmin").FirstOrDefault();
+            var res = appDbContext.usersGroups.Where(x => x.Groups.GroupId.ToString() == ID && x.IdentityUser.UserName == currentUser && (x.IdentityRole.Name == "SuperAdmin" || x.IdentityRole.Name == "Membar")).FirstOrDefault();
             if (currentUser == null || res == null)
             {   
                 return Task.CompletedTask;
@@ -41,7 +41,6 @@ namespace LocalMealManagement.Secuirity
             {
                 context.Succeed(requirement);
             }
-
             return Task.CompletedTask;
         }
     }

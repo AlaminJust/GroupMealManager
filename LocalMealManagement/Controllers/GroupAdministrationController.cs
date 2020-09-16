@@ -65,7 +65,7 @@ namespace LocalMealManagement.Controllers
                 return View(commonGroups);
             }
         }
-        [Authorize(Policy = "SuparAdmin")]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult SpecificGroupTask(string groupId)
         {
             ViewBag.groupId = groupId;
@@ -75,12 +75,14 @@ namespace LocalMealManagement.Controllers
 
         /// Create Subgroup
         [HttpGet]
+        [Authorize(Policy = "SuparAdmin")]
         public IActionResult CreateSubGroup(string groupId)
         {
             ViewBag.groupId = groupId;
             return View();
         }
         [HttpPost]
+        [Authorize(Policy = "SuparAdmin")]
         public async Task<IActionResult> CreateSubGroup(CreateSubgroupViewModel model , string groupId)
         {
             ViewBag.groupId = groupId;
@@ -97,6 +99,7 @@ namespace LocalMealManagement.Controllers
 
         // Generate Day Formate for giving and updating meal in the subgroups
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult MealsFormate(string subGroupId , string groupId) 
         {
             ViewBag.groupId = groupId;
@@ -119,6 +122,7 @@ namespace LocalMealManagement.Controllers
         }
         
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult AddMeals(string groupId , string subGroupId , DateTime date)
         {
             ViewBag.groupId = groupId;
@@ -128,6 +132,7 @@ namespace LocalMealManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public async Task<IActionResult> AddMeals(MealModelView model , string groupId , string subGroupId, DateTime date )
         {
             ViewBag.groupId = groupId;
@@ -142,7 +147,7 @@ namespace LocalMealManagement.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Somethings Going Wrong");
+                    ModelState.AddModelError("Error : ", "Sorry time is over!");
                 }
             }
             return View(model);
@@ -151,6 +156,7 @@ namespace LocalMealManagement.Controllers
         // Update Meal 
         // Group Id need for authorzation
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult UpdateMeals(string groupId, string subGroupId, DateTime date)
         {
             ViewBag.groupId = groupId;
@@ -160,6 +166,7 @@ namespace LocalMealManagement.Controllers
             return View(mealModelView);
         }
         [HttpPost]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public async Task<IActionResult> UpdateMeals(MealModelView model, string groupId , string subGroupId , DateTime date)
         {
             ViewBag.groupId = groupId;
@@ -174,12 +181,13 @@ namespace LocalMealManagement.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Somethings going Wrong");
+                    ModelState.AddModelError("", "Sorry time is over!");
                 }
             }
             return View(model);
         }
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult ShowMeal(string groupId , string subGroupId , DateTime date)
         {
             MealModelView mealDetails = subGroupRepository.ShowMeal(subGroupId, User.Identity.Name, date);
@@ -197,17 +205,20 @@ namespace LocalMealManagement.Controllers
 
         // To show specific subgroups All users meals
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult SubGroupsAllUsersMeals(string groupId , string subGroupId , DateTime date)
         {
             var subGroupAllUserMeals = subGroupRepository.SubGroupAllUserMeals(subGroupId, date);
             return View(subGroupAllUserMeals);
         }
         [HttpGet]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult AllUsersMonthlyMeals(string groupId , string subGroupId , DateTime date)
         {
             var allUsersMonthlyMeals = subGroupRepository.AllUsersMonthlyMeals(subGroupId, date);
             return View(allUsersMonthlyMeals);
         }
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult AddCost(string groupId , string subGroupId)
         {
             ViewBag.groupId = groupId;
@@ -215,6 +226,7 @@ namespace LocalMealManagement.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public async Task<IActionResult> AddCost(CostViewModel model , string groupId , string subGroupId)
         {
             if (ModelState.IsValid)

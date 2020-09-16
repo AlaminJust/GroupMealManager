@@ -32,7 +32,7 @@ namespace LocalMealManagement.Services
             if (groups == null) return false; /// groups not create
             var users = await userManager.FindByNameAsync(userName);
             var role = await roleManager.FindByNameAsync(roleName);
-            if (users == null) return false;  /// username is not exist
+            if (users == null || role == null) return false;  /// username is not exist
             UsersGroups usersGroups = new UsersGroups
             {
                 Groups = groups,

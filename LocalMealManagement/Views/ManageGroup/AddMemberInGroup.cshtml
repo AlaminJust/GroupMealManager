@@ -2,32 +2,55 @@
 
 @{
     ViewData["Title"] = "AddMemberInGroup";
+    <link href="~/css/autocomplete.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 }
 
-<h1>AddMemberInGroup</h1>
-
-<h4>UserNameViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddMemberInGroup">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-route-groupId="@ViewBag.groupId" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="custom-board board shadow">
+    <div class="mb-3" style="font-size:12px;">
+        <a href="~/GroupAdministration/AllGroups">Back to group list</a>
     </div>
+
+    <form asp-action="AddMemberInGroup">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">
+                    <label asp-for="UserName" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <input asp-route-groupId="@ViewBag.groupId" type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script>
+    $(document).ready(function () {
+        $('#UserName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "AllUsersName",
+                    type: "POST",
+                    dataType: "json",   
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item, value: item};
+                        }))
+                    }
+                })
+            },
+            message: {
+                noResults: "", results: ""
+            }
+        });
+    });
+</script>

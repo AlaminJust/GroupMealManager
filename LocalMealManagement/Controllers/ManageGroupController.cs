@@ -15,20 +15,27 @@ namespace LocalMealManagement.Controllers
     {
         private readonly IManageGroupRepository manageGroupRepository;
         private readonly ISubGroupRepository subGroupRepository;
-        public ManageGroupController(IManageGroupRepository manageGroupRepository , ISubGroupRepository subGroupRepository)
+        private readonly UserManager<IdentityUser> userManager;
+
+        public ManageGroupController(
+            IManageGroupRepository manageGroupRepository ,
+            ISubGroupRepository subGroupRepository ,
+            UserManager<IdentityUser> userManager
+            )
         {
             this.manageGroupRepository = manageGroupRepository;
             this.subGroupRepository = subGroupRepository;
+            this.userManager = userManager;
         }
         [HttpGet]
-        [Authorize(Policy = "SuparAdmin")]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult AddMemberInGroup(string groupId)
         {
             ViewBag.groupId = groupId;
             return View();
         }
         [HttpPost]
-        [Authorize(Policy = "SuparAdmin")]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public async Task<IActionResult> AddMemberInGroup(string groupId , UserNameViewModel model)
         {
             ViewBag.groupId = groupId;
@@ -47,7 +54,7 @@ namespace LocalMealManagement.Controllers
             return View(model);
         }
         [HttpGet]
-        [Authorize(Policy = "SuparAdmin")]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public IActionResult MembersInGroup(string groupId, string subGroupId="NULL")
         {
             ViewBag.groupId = groupId;
@@ -56,7 +63,7 @@ namespace LocalMealManagement.Controllers
             return View(users);
         }
         [HttpGet]
-        [Authorize(Policy = "SuparAdmin")]
+        [Authorize(Policy = "SuparAdminOrMember")]
         public async Task<IActionResult> KickOutUserFromGroup(string userId , int? groupId)
         {
             if(userId == null || groupId == null)
@@ -81,6 +88,11 @@ namespace LocalMealManagement.Controllers
             var allCalculation = subGroupRepository.allCalculations(subGroupId);
             return View(allCalculation);
         }
-
+        [HttpPost]
+        public JsonResult AllUsersName(string Prefix)
+        {
+            var userNameList = userManager.Users.Where(x=>x.UserName.StartsWith(Prefix)).Select(x => x.UserName).ToList();
+            return Json(userNameList);
+        }
     }
 }

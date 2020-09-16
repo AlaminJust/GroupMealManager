@@ -48,6 +48,8 @@ namespace LocalMealManagement.Services
 
             MealDetails mealDetails = new MealDetails
             {
+                UserId = user.Id,
+                SubGroupId = subGroup.Id,
                 IdentityUser = user,
                 SubGroups = subGroup,
                 Dinnar = model.Dinnar,
@@ -62,7 +64,9 @@ namespace LocalMealManagement.Services
         public async Task<bool> UpdateMeal(MealModelView model, string subGroupId, string userName, DateTime date)
         {
             var mealDetailsUpdate = context.mealDetails.Where(x => x.SubGroups.Id.ToString() == subGroupId && x.IdentityUser.UserName == userName && x.OrderDate == date).FirstOrDefault();
-            if (!checkTimeAndDate(mealDetailsUpdate?.SubGroups, DateTime.Now, date))
+            if (mealDetailsUpdate == null)
+                return false;
+            if (!checkTimeAndDate(GetSubGroupById(mealDetailsUpdate.SubGroupId), DateTime.Now, date))
                 return false;
             mealDetailsUpdate.Lunch = model.Lunch;
             mealDetailsUpdate.Morning = model.Morning;
@@ -217,6 +221,12 @@ namespace LocalMealManagement.Services
             if (mealDetailsShow == null)
                 return false;
             else return true;
+        }
+
+        public SubGroups GetSubGroupById(int subGroupId)
+        {
+            var subGroup = context.subGroups.Where(x => x.Id == subGroupId).FirstOrDefault();
+            return subGroup;
         }
     }
 }

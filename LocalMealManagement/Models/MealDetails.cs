@@ -8,6 +8,8 @@ namespace LocalMealManagement.Models
 {
     public class MealDetails
     {
+        public string UserId { get; set; } 
+        public int SubGroupId { get; set; } 
         public int Id { get; set; } 
         public DateTime OrderDate { get; set; } 
         public int? Lunch { get; set; } 
