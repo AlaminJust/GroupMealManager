@@ -16,39 +16,49 @@ namespace LocalMealManagement.Controllers
         private readonly IManageGroupRepository manageGroupRepository;
         private readonly ISubGroupRepository subGroupRepository;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IGroupRepository groupRepository;
 
         public ManageGroupController(
             IManageGroupRepository manageGroupRepository ,
             ISubGroupRepository subGroupRepository ,
-            UserManager<IdentityUser> userManager
+            UserManager<IdentityUser> userManager ,
+            IGroupRepository groupRepository
             )
         {
             this.manageGroupRepository = manageGroupRepository;
             this.subGroupRepository = subGroupRepository;
             this.userManager = userManager;
+            this.groupRepository = groupRepository;
         }
         [HttpGet]
-        [Authorize(Policy = "SuparAdminOrMember")]
+        [Authorize(Policy = "SuparAdmin")]
         public IActionResult AddMemberInGroup(string groupId)
         {
             ViewBag.groupId = groupId;
             return View();
         }
         [HttpPost]
-        [Authorize(Policy = "SuparAdminOrMember")]
+        [Authorize(Policy = "SuparAdmin")]
         public async Task<IActionResult> AddMemberInGroup(string groupId , UserNameViewModel model)
         {
             ViewBag.groupId = groupId;
             if (ModelState.IsValid)
             {
-                var result = await manageGroupRepository.AddMemberInGroup(groupId, model.UserName);
-                if(result == "Memeber Added")
+                if(!groupRepository.IsUserAlreadyInGroup(groupId:groupId , userName: model.UserName))
                 {
-                    return RedirectToAction("AllGroups", "GroupAdministration");
+                    var result = await manageGroupRepository.AddMemberInGroup(groupId, model.UserName);
+                    if (result == "Memeber Added")
+                    {
+                        return RedirectToAction("MembersInGroup", "ManageGroup", new { groupId = groupId} );
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", result);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", result);
+                    ModelState.AddModelError("", "User Already in this group!");
                 }
             }
             return View(model);
@@ -63,7 +73,7 @@ namespace LocalMealManagement.Controllers
             return View(users);
         }
         [HttpGet]
-        [Authorize(Policy = "SuparAdminOrMember")]
+        [Authorize(Policy = "SuparAdmin")]
         public async Task<IActionResult> KickOutUserFromGroup(string userId , int? groupId)
         {
             if(userId == null || groupId == null)
@@ -74,7 +84,7 @@ namespace LocalMealManagement.Controllers
             {
                 return RedirectToAction("MembersInGroup" , new { groupId = groupId});
             }
-            return BadRequest();
+            return RedirectToAction("MembersInGroup", new { groupId = groupId });
         }
         [HttpGet]
         public IActionResult CostList(string groupId , string subGroupId)
@@ -91,7 +101,7 @@ namespace LocalMealManagement.Controllers
         [HttpPost]
         public JsonResult AllUsersName(string Prefix)
         {
-            var userNameList = userManager.Users.Where(x=>x.UserName.StartsWith(Prefix)).Select(x => x.UserName).ToList();
+            var userNameList = userManager.Users.Where(x=>x.UserName.Contains(Prefix)).Select(x => x.UserName).Take(15).ToList();
             return Json(userNameList);
         }
     }

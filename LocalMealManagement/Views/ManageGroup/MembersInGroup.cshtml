@@ -1,6 +1,11 @@
 ﻿@model List<LocalMealManagement.ViewModel.UserViewModel>
 
-
+@using LocalMealManagement.Services
+@inject IGroupRepository groupRepository
+@{ 
+    var currentUserName = User.Identity.Name;
+    var isGroupSuperAdminCurrentUser = groupRepository.IsUserAlreadyInGroup(ViewBag.groupId, currentUserName, true);
+}
 <html>
 <head>
     <title>MembersInGroup</title>
@@ -11,12 +16,11 @@
         <thead>
             <tr>
                 <th>
-                    UserId
+                    Username
                 </th>
                 <th>
-                    UserName
+                    Action
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +30,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserId)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
@@ -46,8 +47,31 @@
                         }
                         else
                         {
-                            @Html.ActionLink("KickOut", "KickOutUserFromGroup", "ManageGroup", new { userId = item.UserId, groupId = ViewBag.groupId }); <span>|</span>
-                            @Html.ActionLink("Leave", "KickOutUserFromGroup", "ManageGroup", new { userId = item.UserId, groupId = ViewBag.groupId });
+                            var isGroupSuperAdmin = groupRepository.IsUserAlreadyInGroup(ViewBag.groupId, item.UserName, true);
+                            
+                            @if (isGroupSuperAdminCurrentUser)
+                            {
+                                if (isGroupSuperAdmin)
+                                {
+                                    <a href="/ManageGroup/KickOutUserFromGroup?userId=@item.UserId&groupId=@ViewBag.groupId" class="not-allowed" onclick="return false;">Kick out</a>
+                                }
+                                else
+                                {
+                                    <a href="/ManageGroup/KickOutUserFromGroup?userId=@item.UserId&groupId=@ViewBag.groupId" onclick="return confirm('Are you sure you want to kick out!')">Kick out</a>
+                                }
+                            }
+
+                            @if (User.Identity.Name == item.UserName)
+                            {
+                                if (isGroupSuperAdmin)
+                                {
+                                    <a href="/ManageGroup/KickOutUserFromGroup?userId=@item.UserId&groupId=@ViewBag.groupId" class="not-allowed" onclick="return false;">Leave</a>
+                                }
+                                else
+                                {
+                                    <a href="/ManageGroup/KickOutUserFromGroup?userId=@item.UserId&groupId=@ViewBag.groupId" onclick="return confirm('Are you sure you want to Leave!')">Leave</a>
+                                }
+                            }
                         }
                     </td>
                 </tr>
@@ -57,45 +81,45 @@
 
 
     @*<script type="text/javascript">
-        function saveBalance(userName, subGroupId) {
-                if (!confirm("Are You Sure About this Action?")) return;
-                var UserName = "";
-                var subGroupID = "";
-                subGroupID = subGroupId;
-                UserName = userName;
-                var xx = document.getElementById(UserName.substring(1));
-                var AccountViewModel = {
-                    Taka: parseFloat(xx.value),
-                    groupId: @groupId,
-                    subGroupId: subGroupID.substring(1),
-                    UserName: UserName.substring(1)
-                };
-                xx.value = "0";
-                var jsonData = AccountViewModel;
-               // console.log(jsonData);
-                $.ajax({
-                    type: "POST",
-                    url: '/Account/AddBalance',
-                    data: { model: jsonData },
-                    datatype: AccountViewModel,
-                    success: function (response) {
-                        //console.log(response.userName);
-                        alert("Balanced Added Succesfully to " + response.userName);
-                       // console.log("Hello");
-                    },
-                    fail: function (response) {
-                        alert("Somethings Went Wrong!");
-                    }
-                })
-        };
+            function saveBalance(userName, subGroupId) {
+                    if (!confirm("Are You Sure About this Action?")) return;
+                    var UserName = "";
+                    var subGroupID = "";
+                    subGroupID = subGroupId;
+                    UserName = userName;
+                    var xx = document.getElementById(UserName.substring(1));
+                    var AccountViewModel = {
+                        Taka: parseFloat(xx.value),
+                        groupId: @groupId,
+                        subGroupId: subGroupID.substring(1),
+                        UserName: UserName.substring(1)
+                    };
+                    xx.value = "0";
+                    var jsonData = AccountViewModel;
+                   // console.log(jsonData);
+                    $.ajax({
+                        type: "POST",
+                        url: '/Account/AddBalance',
+                        data: { model: jsonData },
+                        datatype: AccountViewModel,
+                        success: function (response) {
+                            //console.log(response.userName);
+                            alert("Balanced Added Succesfully to " + response.userName);
+                           // console.log("Hello");
+                        },
+                        fail: function (response) {
+                            alert("Somethings Went Wrong!");
+                        }
+                    })
+            };
 
-        function pulsar(obj) {
-            obj.value = Math.abs(parseFloat(obj.value));
-            console.log(obj.value);
-            if (obj.value == "NaN") obj.value = "0";
-        }
+            function pulsar(obj) {
+                obj.value = Math.abs(parseFloat(obj.value));
+                console.log(obj.value);
+                if (obj.value == "NaN") obj.value = "0";
+            }
 
-    </script>*@
+        </script>*@
 </body>
 </html>
 

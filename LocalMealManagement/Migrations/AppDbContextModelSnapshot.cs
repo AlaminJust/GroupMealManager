@@ -81,6 +81,100 @@ namespace LocalMealManagement.Migrations
                     b.ToTable("costTables");
                 });
 
+            modelBuilder.Entity("LocalMealManagement.Models.CustomerInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeedBack")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HowYouKnowAboutUs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePictureLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreatAddress1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreatAddress2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SuggestionsToImprove")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("WillYOuRecomand")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Zip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerInfos");
+                });
+
+            modelBuilder.Entity("LocalMealManagement.Models.GroupMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroupsGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUpdated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupsGroupId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupMessages");
+                });
+
             modelBuilder.Entity("LocalMealManagement.Models.Groups", b =>
                 {
                     b.Property<int>("GroupId")
@@ -418,6 +512,17 @@ namespace LocalMealManagement.Migrations
                     b.HasOne("LocalMealManagement.Models.SubGroups", "SubGroups")
                         .WithMany()
                         .HasForeignKey("SubGroupsId");
+                });
+
+            modelBuilder.Entity("LocalMealManagement.Models.GroupMessage", b =>
+                {
+                    b.HasOne("LocalMealManagement.Models.Groups", "Groups")
+                        .WithMany()
+                        .HasForeignKey("GroupsGroupId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("LocalMealManagement.Models.MealDetails", b =>

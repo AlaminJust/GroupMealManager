@@ -1,6 +1,7 @@
 ﻿using LocalMealManagement.Models;
 using LocalMealManagement.ViewModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,13 +53,19 @@ namespace LocalMealManagement.Services
             {
                 return false;
             }
-            var groupUsers = context.usersGroups.Where(x => x.IdentityUser.Id == userId && x.Groups.GroupId == groupId)
-                             .FirstOrDefault();
 
+            var users = userManager.Users.Where(x => x.Id == userId).FirstOrDefault();
+
+            if (groupRepository.IsUserAlreadyInGroup(groupId.ToString(), users.UserName, true))
+                return false;
+
+            var groupUsers = context.usersGroups.Where(x => x.IdentityUser.Id == userId && x.Groups.GroupId == groupId).FirstOrDefault();
+            
             if(groupUsers == null)
             {
                 return false;
             }
+
             context.usersGroups.Remove(groupUsers);
             await Save();
             return true;
@@ -79,7 +86,7 @@ namespace LocalMealManagement.Services
                               UserId = ug.IdentityUser.Id,
                               UserName = ug.IdentityUser.UserName,
                               subGroupId = subGroupId
-                          }).ToList();
+                          }).Distinct().ToList();
             return result;
         }
     }

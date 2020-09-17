@@ -8,6 +8,7 @@ using LocalMealManagement.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,22 +35,29 @@ namespace LocalMealManagement
             services.AddIdentity<IdentityUser, IdentityRole>().
                 AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
+            services.ConfigureApplicationCookie(option =>
+            {
+                option.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+            });
+
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("SuparAdmin", policy =>
+                {
+                    policy.AddRequirements(new ManageGroupSuperAdminClaims());
+                });
                 options.AddPolicy("SuparAdminOrMember", policy =>
                 {
                     policy.AddRequirements(new ManageAdminRollAndClaimsRequirement());
                 });
-                options.AddPolicy("SuperAdmin", policy =>
-                {
-                    policy.AddRequirements(new ManageGroupSuperAdminClaims());
-                });
             });
             services.AddScoped<IAuthorizationHandler, IsGroupSuparAdmin>();
+            services.AddScoped<IAuthorizationHandler, IsGroupSuper>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IManageGroupRepository, ManageGroupRepository>();
             services.AddScoped<ISubGroupRepository, SubGroupRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserInformationService, UserInformationService>();
             services.AddMvc();
         }
 

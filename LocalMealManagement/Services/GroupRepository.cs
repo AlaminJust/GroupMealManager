@@ -1,6 +1,7 @@
 ﻿using LocalMealManagement.Models;
 using LocalMealManagement.ViewModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,24 @@ namespace LocalMealManagement.Services
             var group = context.groups.Where(x => x.GroupName == groupName).FirstOrDefault();
             if (group == null) return "Invalid";
             else return group.GroupId.ToString();
+        }
+
+        public bool IsUserAlreadyInGroup(string groupId, string userName, bool checkRole)
+        {
+            var group = context.usersGroups.Where(x => x.Groups.GroupId.ToString() == groupId && x.IdentityUser.UserName == userName).ToList();
+            
+            if (group.Count == 0)
+                return false;
+
+            if (checkRole)
+            {
+                var roleGroup = context.usersGroups.Where(x => x.Groups.GroupId.ToString() == groupId && x.IdentityUser.UserName == userName && x.IdentityRole.Name == "SuperAdmin").ToList();
+
+                if (roleGroup.Count == 0)
+                    return false;
+                else return true;
+            }
+            return true;
         }
 
         public async Task<Boolean> save()

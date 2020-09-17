@@ -20,5 +20,7 @@ namespace LocalMealManagement.Models
         public DbSet<SubGroups> subGroups { get; set; }  
         public DbSet<AccountBalance> accountBalance { get; set; }  
         public DbSet<CostTable> costTables { get; set; }   
+        public DbSet<CustomerInfo> CustomerInfos { get; set; }    
+        public DbSet<GroupMessage> GroupMessages { get; set; }     
     }
 }

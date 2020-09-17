@@ -87,3 +87,17 @@ input[type="submit"] {
     font-family: serif;
     font-size: 18px;
 }
+
+.table a {
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    color: black;
+    font-family: serif;
+}
+body{
+    font-family:serif;
+}
+.not-allowed {
+    cursor:not-allowed;
+}

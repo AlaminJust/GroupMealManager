@@ -182,5 +182,10 @@ namespace LocalMealManagement.Controllers
 
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }

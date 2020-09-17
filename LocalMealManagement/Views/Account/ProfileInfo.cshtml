@@ -1,0 +1,223 @@
+﻿@model CustomerViewModel
+
+@using LocalMealManagement.ViewModel
+
+<script src="https://cdn.jotfor.ms/js/vendor/jquery-1.8.0.min.js?v=3.3.20341" type="text/javascript"></script>
+<script src="https://cdn.jotfor.ms/js/vendor/maskedinput.min.js?v=3.3.20341" type="text/javascript"></script>
+<script src="https://cdn.jotfor.ms/js/vendor/jquery.maskedinput.min.js?v=3.3.20341" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/punycode/1.4.1/punycode.min.js"></script>
+<script src="https://cdn.jotfor.ms/static/prototype.forms.js" type="text/javascript"></script>
+<script src="https://cdn.jotfor.ms/static/jotform.forms.js?3.3.20341" type="text/javascript"></script>
+<script type="text/javascript">
+   JotForm.setConditions([{"action":[{"field":"9","visibility":"Show","id":"action_0_1579704830003"}],"id":"1579704830003","index":"0","link":"Any","priority":"0","terms":[{"field":"8","operator":"equals","value":"Other (Please specify...)"}],"type":"field"}]);
+	JotForm.init(function(){
+      JotForm.setPhoneMaskingValidator( 'input_5_full', '(###) ###-####' );
+      setTimeout(function() {
+          $('input_6').hint('ex: email@yahoo.com'); 
+       }, 20);
+if (window.JotForm && JotForm.accessible) $('input_9').setAttribute('tabindex',0);
+if (window.JotForm && JotForm.accessible) $('input_11').setAttribute('tabindex',0);
+if (window.JotForm && JotForm.accessible) $('input_12').setAttribute('tabindex',0);
+	JotForm.newDefaultTheme = true;
+	JotForm.newPaymentUIForNewCreatedForms = false;
+	JotForm.newPaymentUI = true;
+    /*INIT-END*/
+	});
+
+   JotForm.prepareCalculationsOnTheFly([null,{"name":"clickTo","qid":"1","text":"Customer Details:","type":"control_head"},{"name":"submit","qid":"2","text":"Submit","type":"control_button"},{"name":"fullName3","qid":"3","text":"Full Name","type":"control_fullname"},{"name":"address4","qid":"4","text":"Address","type":"control_address"},{"name":"phoneNumber5","qid":"5","text":"Phone Number","type":"control_phone"},{"name":"email6","qid":"6","subLabel":"example@example.com","text":"E-mail","type":"control_email"},{"name":"clickTo7","qid":"7","text":"","type":"control_text"},{"name":"howDid8","qid":"8","text":"How did you hear about us?","type":"control_dropdown"},{"name":"other","qid":"9","text":"Other","type":"control_textbox"},null,{"name":"feedbackAbout11","qid":"11","text":"Feedback about us:","type":"control_textarea"},{"name":"suggestionsIf","qid":"12","text":"Suggestions if any for further improvement:","type":"control_textarea"},{"name":"willYou","qid":"13","text":"Will you be willing to recommend us?","type":"control_checkbox"},{"name":"pleaseGive14","qid":"14","text":"Please give reference of any two people whom you feel:","type":"control_matrix"}]);
+   setTimeout(function() {
+JotForm.paymentExtrasOnTheFly([null,{"name":"clickTo","qid":"1","text":"Customer Details:","type":"control_head"},{"name":"submit","qid":"2","text":"Submit","type":"control_button"},{"name":"fullName3","qid":"3","text":"Full Name","type":"control_fullname"},{"name":"address4","qid":"4","text":"Address","type":"control_address"},{"name":"phoneNumber5","qid":"5","text":"Phone Number","type":"control_phone"},{"name":"email6","qid":"6","subLabel":"example@example.com","text":"E-mail","type":"control_email"},{"name":"clickTo7","qid":"7","text":"","type":"control_text"},{"name":"howDid8","qid":"8","text":"How did you hear about us?","type":"control_dropdown"},{"name":"other","qid":"9","text":"Other","type":"control_textbox"},null,{"name":"feedbackAbout11","qid":"11","text":"Feedback about us:","type":"control_textarea"},{"name":"suggestionsIf","qid":"12","text":"Suggestions if any for further improvement:","type":"control_textarea"},{"name":"willYou","qid":"13","text":"Will you be willing to recommend us?","type":"control_checkbox"},{"name":"pleaseGive14","qid":"14","text":"Please give reference of any two people whom you feel:","type":"control_matrix"}]);}, 20);
+</script>
+<link type="text/css" media="print" rel="stylesheet" href="https://cdn.jotfor.ms/css/printForm.css?3.3.20341" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/themes/CSS/5e6b428acc8c4e222d1beb91.css?themeRevisionID=5eb3b4ae85bd2e1e2966db96" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/payment/payment_styles.css?3.3.20341" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/payment/payment_feature.css?3.3.20341" />
+<form class="jotform-form" action="ProfileInfo" method="post" name="form_202594607986469" id="202594607986469" accept-charset="utf-8" autocomplete="on">
+    <input type="hidden" name="formID" value="202594607986469" />
+    <input type="hidden" id="JWTContainer" value="" />
+    <input type="hidden" id="cardinalOrderNumber" value="" />
+    <div role="main" class="form-all">
+        <ul class="form-section page-section">
+            <li id="cid_1" class="form-input-wide" data-type="control_head">
+                <div class="form-header-group  header-large">
+                    <div class="header-text httal htvam">
+                        <h1 id="header_1" class="form-header text-center" data-component="header">
+                            User information
+                        </h1>
+                    </div>
+                </div>
+            </li>
+            <li class="form-line jf-required" data-type="control_fullname" id="id_3">
+                <label class="form-label form-label-top form-label-auto" asp-for="FirstName">
+                    Full Name
+                    <span class="form-required">
+                        *
+                    </span>
+                </label>
+                <div id="cid_3" class="form-input-wide jf-required" data-layout="full">
+                    <div data-wrapper-react="true">
+                        <span class="form-sub-label-container " style="vertical-align:top" data-input-type="first">
+                            <input type="text" asp-for="FirstName" class="form-textbox validate[required]" size="10" value="@Model.FirstName" data-component="first" aria-labelledby="label_3 sublabel_3_first" required="" />
+                            <label class="form-sub-label" asp-for="FirstName" style="min-height:13px" aria-hidden="false"> First Name </label>
+                        </span>
+                        <span class="form-sub-label-container " style="vertical-align:top" data-input-type="last">
+                            <input type="text" asp-for="LastName" class="form-textbox validate[required]" size="15" value="@Model.LastName" data-component="last" aria-labelledby="label_3 sublabel_3_last" required="" />
+                            <label class="form-sub-label" asp-for="LastName" style="min-height:13px" aria-hidden="false"> Last Name </label>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li class="form-line jf-required" data-type="control_address" id="id_4">
+                <label class="form-label form-label-top form-label-auto" asp-for="StreatAddress1">
+                    Address
+                    <span class="form-required">
+                        *
+                    </span>
+                </label>
+                <div id="cid_4" class="form-input-wide jf-required" data-layout="full">
+                    <div summary="" class="form-address-table jsTest-addressField">
+                        <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
+                            <span class="form-address-line form-address-street-line jsTest-address-lineField">
+                                <span class="form-sub-label-container " style="vertical-align:top">
+                                    <input type="text" asp-for="StreatAddress1" class="form-textbox validate[required] form-address-line" value="@Model.StreatAddress1" data-component="address_line_1" aria-labelledby="label_4 sublabel_4_addr_line1" required="" />
+                                    <label class="form-sub-label" asp-for="StreatAddress1" style="min-height:13px" aria-hidden="false"> Street Address </label>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
+                            <span class="form-address-line form-address-street-line jsTest-address-lineField">
+                                <span class="form-sub-label-container " style="vertical-align:top">
+                                    <input type="text" asp-for="StreatAddress2" class="form-textbox form-address-line" value="@Model.StreatAddress2" data-component="address_line_2" aria-labelledby="label_4 sublabel_4_addr_line2" />
+                                    <label class="form-sub-label" asp-for="StreatAddress2" style="min-height:13px" aria-hidden="false"> Street Address Line 2 </label>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
+                            <span class="form-address-line form-address-city-line jsTest-address-lineField ">
+                                <span class="form-sub-label-container " style="vertical-align:top">
+                                    <input type="text" asp-for="City" class="form-textbox validate[required] form-address-city" value="@Model.City" data-component="city" aria-labelledby="label_4 sublabel_4_city" required="" />
+                                    <label class="form-sub-label" asp-for="City" style="min-height:13px" aria-hidden="false"> City </label>
+                                </span>
+                            </span>
+                            <span class="form-address-line form-address-state-line jsTest-address-lineField ">
+                                <span class="form-sub-label-container " style="vertical-align:top">
+                                    <input type="text" asp-for="State" class="form-textbox validate[required] form-address-state" value="@Model.State" data-component="state" aria-labelledby="label_4 sublabel_4_state" required="" />
+                                    <label class="form-sub-label" asp-for="State" style="min-height:13px" aria-hidden="false"> State / Province </label>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
+                            <span class="form-address-line form-address-zip-line jsTest-address-lineField ">
+                                <span class="form-sub-label-container " style="vertical-align:top">
+                                    <input type="text" asp-for="Zip"  class="form-textbox validate[required] form-address-postal" value="@Model.Zip" data-component="zip" aria-labelledby="label_4 sublabel_4_postal" required="" />
+                                    <label class="form-sub-label" asp-for="Zip"  style="min-height:13px" aria-hidden="false"> Postal / Zip Code </label>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="form-line jf-required" data-type="control_phone" id="id_5">
+                <label class="form-label form-label-top form-label-auto" asp-for="PhoneNumber">
+                    Phone Number
+                    <span class="form-required">
+                        *
+                    </span>
+                </label>
+                <div id="cid_5" class="form-input-wide jf-required" data-layout="half">
+                    <span class="form-sub-label-container " style="vertical-align:top">
+                        <input type="tel" asp-for="PhoneNumber" data-type="mask-number" class="mask-phone-number form-textbox validate[required, Fill Mask]" style="width:310px" data-masked="true" value="@Model.PhoneNumber" placeholder="(000) 000-0000" data-component="phone" aria-labelledby="label_5" required="" />
+                        <label class="form-sub-label is-empty" asp-for="PhoneNumber" style="min-height:13px" aria-hidden="false">  </label>
+                    </span>
+                </div>
+            </li>
+            <li class="form-line" data-type="control_email" id="id_6">
+                <label class="form-label form-label-top form-label-auto" asp-for="Email"> E-mail </label>
+                <div id="cid_6" class="form-input-wide" data-layout="half">
+                    <span class="form-sub-label-container " style="vertical-align:top">
+                        <input type="email" asp-for="Email" class="form-textbox validate[Email]" style="width:310px" size="310" value="@Model.Email" placeholder="ex: email@yahoo.com" data-component="email" aria-labelledby="label_6 sublabel_input_6" />
+                        <label class="form-sub-label" asp-for="Email" style="min-height:13px" aria-hidden="false"> example@example.com </label>
+                    </span>
+                </div>
+            </li>
+            <li class="form-line" data-type="control_text" id="id_7">
+                <div id="cid_7" class="form-input-wide" data-layout="full">
+                    <div id="text_7" class="form-html" data-component="text">
+                        <hr />
+                    </div>
+                </div>
+            </li>
+            <li class="form-line jf-required" data-type="control_dropdown" id="id_8">
+                <label class="form-label form-label-top form-label-auto" asp-for="HowYouKnowAboutUs">
+                    How did you hear about us?
+                    <span class="form-required">
+                        *
+                    </span>
+                </label>
+                <div id="cid_8" class="form-input-wide jf-required" data-layout="half">
+                    <select class="form-dropdown validate[required]" asp-for="HowYouKnowAboutUs"  style="width:310px" data-component="dropdown" required="" aria-labelledby="label_8">
+                        <option value=""> Please Select </option>
+                        <option value="Newspaper"> Newspaper </option>
+                        <option value="Internet"> Internet </option>
+                        <option value="Magazine"> Magazine </option>
+                        <option value="Other (Please specify...)"> Other (Please specify...) </option>
+                    </select>
+                </div>
+            </li>
+            <li class="form-line jf-required form-field-hidden" style="display:none;" data-type="control_textbox" id="id_9">
+                <label class="form-label form-label-top form-label-auto" asp-for="HowYouKnowAboutUs">
+                    Other
+                    <span class="form-required">
+                        *
+                    </span>
+                </label>
+                <div id="cid_9" class="form-input-wide jf-required" data-layout="half">
+                    <input type="text" asp-for="HowYouKnowAboutUs" data-type="input-textbox" class="form-textbox validate[required]" style="width:310px" size="310" value="@Model.HowYouKnowAboutUs" placeholder=" " data-component="textbox" aria-labelledby="label_9" required="" />
+                </div>
+            </li>
+            <li class="form-line" data-type="control_textarea" id="id_11">
+                <label class="form-label form-label-top form-label-auto" asp-for="FeedBack"> Feedback about us: </label>
+                <div id="cid_11" class="form-input-wide" data-layout="full">
+                    <textarea asp-for="FeedBack" class="form-textarea"  style="width:648px;height:163px" data-component="textarea" aria-labelledby="label_11">@Model.FeedBack</textarea>
+                </div>
+            </li>
+            <li class="form-line" data-type="control_textarea" id="id_12">
+                <label class="form-label form-label-top form-label-auto" asp-for="SuggestionsToImprove"> Suggestions if any for further improvement: </label>
+                <div id="cid_12" class="form-input-wide" data-layout="full">
+                    <textarea asp-for="SuggestionsToImprove" class="form-textarea" style="width:648px;height:163px" data-component="textarea" aria-labelledby="label_12">@Model.SuggestionsToImprove</textarea>
+                </div>
+            </li>
+            <li class="form-line" data-type="control_checkbox" id="id_13">
+                <label class="form-label form-label-top form-label-auto" asp-for="WillYOuRecomand"> Will you be willing to recommend us? </label>
+                <div id="cid_13" class="form-input-wide" data-layout="full">
+                    <div class="form-single-column" role="group" aria-labelledby="label_13" data-component="checkbox">
+                        <span class="form-checkbox-item" style="clear:left">
+                            <span class="dragger-item">
+                            </span>
+                            <input type="checkbox" class="form-checkbox" asp-for="WillYOuRecomand" />
+                            <label asp-for="WillYOuRecomand"> Yes </label>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li class="form-line" data-type="control_button" id="id_2">
+                <div id="cid_2" class="form-input-wide" data-layout="full">
+                    <div data-align="left" class="form-buttons-wrapper form-buttons-left   jsTest-button-wrapperField">
+                        <button id="input_2" type="submit" class="form-submit-button submit-button jf-form-buttons jsTest-submitField" data-component="button" data-content="">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</form>
+<script src="https://cdn.jotfor.ms//js/vendor/smoothscroll.min.js?v=3.3.20341"></script>
+<script src="https://cdn.jotfor.ms//js/errorNavigation.js?v=3.3.20341"></script>
+
+<script>
+    var checked = @Model.WillYOuRecomand;
+    $(document).ready(function () {
+         $("#WillYOuRecomand").prop("checked", checked);
+    });
+</script>

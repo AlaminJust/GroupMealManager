@@ -4,17 +4,17 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h4>Group name</h4>
+        <h5>Group name</h5>
     </div>
     <div class="col-md-4">
-        <h4>Action</h4>
+        <h5>Action</h5>
     </div>
 </div>
 
 @foreach (var item in Model)
 {
-    <div class="row shadow board" style="border-radius:10px;">
-        <div class="col-md-4 custom-font">
+    <div class="row board" style="border-radius:10px; border:1px solid; z-index:1200; margin-bottom:2px; background:white;">
+        <div class="col-md-4">
             @item.GroupName
         </div>
         <div class="col-md-7">

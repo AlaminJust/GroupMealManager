@@ -16,6 +16,6 @@ namespace LocalMealManagement.Services
         public Task<List<Groups>> AllGroupOfUser(string UserName);
         public List<SubGroupViewModel> AllSubGroupsInAGroup(string groupId); 
         public Task<Boolean> save();
-        
+        public Boolean IsUserAlreadyInGroup(string groupId , string userName, bool checkRole = false);
     }
 }

@@ -43,7 +43,6 @@ namespace LocalMealManagement.Controllers
                     return View(model);
                 }
                 string currentGroupId = groupRepository.GetGroupId(model.GroupName);
-                await groupRepository.AddRoleOfGroupMember(userName, currentGroupId,"Membar");
                 await groupRepository.AddRoleOfGroupMember(userName, currentGroupId,"SuperAdmin");
             }
             return RedirectToAction("AllGroups");
@@ -147,7 +146,7 @@ namespace LocalMealManagement.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Error : ", "Sorry time is over!");
+                    ModelState.AddModelError("", "Sorry time is over!");
                 }
             }
             return View(model);
