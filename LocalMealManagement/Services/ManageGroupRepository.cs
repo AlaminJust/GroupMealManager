@@ -47,6 +47,14 @@ namespace LocalMealManagement.Services
             return result;
         }
 
+        public Groups GetGroupById(int groupId)
+        {
+            if (groupId <= 0)
+                throw new NullReferenceException(nameof(groupId));
+            var group = context.groups.Where(x => x.GroupId == groupId).FirstOrDefault();
+            return group;
+        }
+
         public async Task<bool> KickOutUser(string userId, int? groupId)
         {
             if(userId == null || groupId == null)

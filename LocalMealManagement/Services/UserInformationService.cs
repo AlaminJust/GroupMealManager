@@ -38,5 +38,13 @@ namespace LocalMealManagement.Services
             return customerInfo;
         }
 
+        public IdentityUser GetUserById(string userId)
+        {
+            if (userId == null)
+                throw new NullReferenceException(nameof(userId));
+
+            var user = userManager.Users.Where(x => x.Id == userId).FirstOrDefault();
+            return user;
+        }
     }
 }

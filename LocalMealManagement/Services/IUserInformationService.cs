@@ -11,5 +11,6 @@ namespace LocalMealManagement.Services
     {
         public CustomerInfo GetCustomerInfoByCustomerName(string userName);
         public IdentityUser GetIdentityByUserName(string UserName);
+        public IdentityUser GetUserById(string userId);
     }
 }

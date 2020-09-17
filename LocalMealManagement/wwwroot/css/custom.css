@@ -101,3 +101,26 @@ body{
 .not-allowed {
     cursor:not-allowed;
 }
+
+.group-message-right {
+    display:block;
+    float: right;
+    background: #90476247;
+    padding: 5px;
+    margin: 5px 100px;
+    border-radius: 0px 15px;
+    width:40%;
+}
+
+.group-message-left {
+    display: block;
+    float: left;
+    background: #90476247;
+    padding: 5px;
+    margin: 5px 100px;
+    border-radius: 0px 15px;
+    width: 40%;
+}
+.sub-group-listlink a {
+    font-size: 20px !important;
+}

@@ -21,6 +21,7 @@
             <a asp-controller="GroupAdministration" asp-action="SpecificGroupTask" asp-route-groupId="@item.GroupId" class="btn btn-primary">Manage group</a>
             <a asp-controller="ManageGroup" asp-action="AddMemberInGroup" asp-route-groupId="@item.GroupId" class="btn btn-primary">Add member</a>
             <a asp-controller="ManageGroup" asp-action="MembersInGroup" asp-route-groupId="@item.GroupId" class="btn btn-primary">Members</a>
+            <a asp-controller="GroupMessage" asp-action="GroupChat" asp-route-groupId="@item.GroupId" class="btn btn-primary">Group chat</a>
         </div>
     </div>
 }

@@ -1,73 +1,55 @@
 ﻿@model IEnumerable<GroupMessageViewModel>
 
 @using LocalMealManagement.ViewModel.GroupMessage
+@using LocalMealManagement.Services
+@inject IUserInformationService _userInformationService
 
 @{
     ViewData["Title"] = "GroupChat";
+    var currentUserName = User.Identity.Name;
 }
 
-<h1>GroupChat</h1>
+<h1 class="text-center bg-info">Group discussion</h1>
+<script src="~/js/groupMessage.js"></script>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsUpdated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsUpdated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div>
+    @foreach (var item in Model)
+    {
+        var userName = _userInformationService.GetUserById(item.UserId).UserName;
+        if (userName == currentUserName)
+        {
+            <div class="group-message-right">
+                <b style="color:#100000">@userName</b> @item.Message
+            </div>
+        }
+        else
+        {
+            <div class="group-message-left">
+                <b style="color:#100000">@userName</b> @item.Message
+            </div>
+        }
+    }
+</div>
+
+<div style="width:100%; float:right; margin:10px;">
+    <form>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" id="messagess" name="messagess" class="form-control" placeholder="Your message write here...."/>
+                </div>
+                <input type="submit" onclick="groupMessage.messageSubmit(@ViewBag.groupId)" hidden />
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            if ($('#messagess').val().length==0) {
+                window.location.reload(1);
+            }
+        }, 5000);
+    });
+</script>

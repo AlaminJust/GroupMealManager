@@ -9,6 +9,11 @@ namespace LocalMealManagement.ViewModel.GroupMessage
 {
     public class GroupMessageViewModel
     {
+        public GroupMessageViewModel()
+        {
+            User = new IdentityUser();
+            Groups = new Groups();
+        }
         public int Id { get; set; }
         public string Message { get; set; }
         public string UserId { get; set; }

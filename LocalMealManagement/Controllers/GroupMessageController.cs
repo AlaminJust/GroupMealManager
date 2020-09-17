@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LocalMealManagement.Factories;
+using LocalMealManagement.Migrations;
+using LocalMealManagement.Models;
+using LocalMealManagement.Services;
+using LocalMealManagement.ViewModel.GroupMessage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +16,20 @@ namespace LocalMealManagement.Controllers
 {
     public class GroupMessageController : Controller
     {
+        private readonly IGroupMessageService _groupMessageService;
+        private readonly IGroupMessageFactory _groupMessageFactory;
 
 
         #region CTOR
 
-        public GroupMessageController()
+        public GroupMessageController
+            (
+                IGroupMessageService groupMessageService,
+                IGroupMessageFactory groupMessageFactory
+            )
         {
-
+            _groupMessageService = groupMessageService;
+            _groupMessageFactory = groupMessageFactory;
         }
 
         #endregion
@@ -25,91 +39,24 @@ namespace LocalMealManagement.Controllers
 
         #endregion
         [HttpGet]
-        public IActionResult GroupChate()
+        [Authorize(Policy = "SuparAdminOrMember")]
+        public IActionResult GroupChat(int groupId)
         {
-
+            var allMessage = _groupMessageService.GetGroupMessagesByGroupId(groupId);
+            ViewBag.GroupId = groupId;
+            return View(allMessage); 
         }
 
-
-        // GET: GroupMessage
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: GroupMessage/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: GroupMessage/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: GroupMessage/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Authorize(Policy = "SuparAdminOrMember")]
+        public JsonResult AddMessage(int groupId , GroupMessageViewModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: GroupMessage/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: GroupMessage/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: GroupMessage/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: GroupMessage/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.groupId = model.GroupId;
+            var groupMessage = _groupMessageFactory.PrepareGroupMessage(model, false, User.Identity.Name);
+            if (groupMessage == null)
+                return Json(new { message = "bad request" });
+            _groupMessageService.AddGroupMessage(groupMessage);
+            return Json(new { groupId = model.GroupId});
         }
     }
 }

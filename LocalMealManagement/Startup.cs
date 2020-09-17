@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalMealManagement.Factories;
 using LocalMealManagement.Models;
 using LocalMealManagement.Secuirity;
 using LocalMealManagement.Services;
@@ -58,6 +59,8 @@ namespace LocalMealManagement
             services.AddScoped<ISubGroupRepository, SubGroupRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserInformationService, UserInformationService>();
+            services.AddScoped<IGroupMessageService, GroupMessageService>();
+            services.AddScoped<IGroupMessageFactory, GroupMessageFactory>();
             services.AddMvc();
         }
 
@@ -91,6 +94,11 @@ namespace LocalMealManagement
                     name: "GroupCreate",
                     pattern: "Group/CreateGroup",
                     defaults: new { controller = "GroupAdministration", action = "CreateGroup" }
+                    );
+                endpoints.MapControllerRoute(
+                    name: "Dashboard",
+                    pattern: "User/Dashboard",
+                    defaults: new { controller = "Account" , action = "ProfileInfo" }
                     );
             });
         }
