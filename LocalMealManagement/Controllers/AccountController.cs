@@ -98,6 +98,7 @@ namespace LocalMealManagement.Controllers
                     UserId = user?.Id
                 };
                 context.CustomerInfos.Add(customerInfo);
+                context.SaveChanges();
             }
             return View(model);
         }

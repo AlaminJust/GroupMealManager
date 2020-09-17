@@ -334,3 +334,4 @@ D:\Manager-master\LocalMealManagement\obj\Debug\netcoreapp3.1\staticwebassets\Lo
 D:\Manager-master\LocalMealManagement\obj\Debug\netcoreapp3.1\LocalMealManagement.dll
 D:\Manager-master\LocalMealManagement\obj\Debug\netcoreapp3.1\LocalMealManagement.pdb
 D:\Manager-master\LocalMealManagement\obj\Debug\netcoreapp3.1\LocalMealManagement.genruntimeconfig.cache
+D:\Manager-master\LocalMealManagement\obj\Debug\netcoreapp3.1\LocalMealManagement.csprojAssemblyReference.cache
